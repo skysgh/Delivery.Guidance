@@ -4,6 +4,8 @@ These conventions support implementation, testing, operations and project struct
 
 ## Subject areas
 
+- [Physical component architecture](./component-architecture.md)
+- [Task routes](./task-routes.md)
 - [Code and language guidance](./code.md)
 - [Pipeline Development and Infrastructure as Code](../../../IT/deliverables/systems/pipeline/development-language.md)
 - [Projects and LDMs](./projects.md)

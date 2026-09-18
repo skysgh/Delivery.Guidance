@@ -2,6 +2,12 @@
 
 Software engineering is the work of making a service understandable, dependable and able to change. The visible feature is only one part of that work. A service also needs clear responsibilities, boundaries, security, persistence, recovery and evidence that it behaves as intended.
 
+## For meaningful applications
+
+This material is for software that matters to people and organisations. It is for applications that carry work, records, access, decisions, money, obligations or public trust, and whose failure may damage the reputation of the organisation behind them. It is not written for disposable trinkets or proof-of-concept demonstrations. Those can be useful forms of exploration, but they are different engineering contexts and should be treated as disposable rather than allowed to become production by accident.
+
+The guidance therefore does not begin with "MVP" or "simplicity first" as its governing standard. An MVP can be a valid scope decision, but it is not a quality standard. A smaller first release may defer capabilities while still being valuable, secure, usable, maintainable, supportable and recoverable. It must not defer the foundations needed to protect people, preserve meaning, operate the service or change it safely. This matters especially when funding may end: a team cannot responsibly assume that a later phase will repair choices that are unsafe or expensive to replace now.
+
 When the vocabulary is new, [Finding a Useful Starting Point](./foundations/ways-into-guidance.md) begins with familiar situations and connects the question with a useful responsibility, catalogue or checklist.
 
 A delivered outcome is wider than the service code. [Deliverables](./deliverables/readme.md) explains how software, supporting material, operational responsibility and evidence become one usable delivered service. [Deliverable Systems](./shared/reference/catalogues/deliverable-systems.md) describes the distinct systems around that service, while [Deliverables](./shared/reference/catalogues/deliverables.md) describes the data, content, domains, DNS, certificates, discovery, dependencies and operational evidence they require. [Registries](./shared/reference/catalogues/registries.md) distinguishes enterprise-wide sources that projects refer to from project-specific records that projects produce and maintain.

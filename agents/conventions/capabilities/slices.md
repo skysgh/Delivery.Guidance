@@ -6,6 +6,8 @@ For the accessible explanation of slices and their relationship to the flow pale
 
 Before naming a slice, identify the Domain that gives the capability its meaning and the Functions that belong within it. The reader [Guidance Glossary](../../../IT/shared/reference/glossary.md) explains these terms and the risk of polysemy.
 
+Use [Holistic Development Architecture](../development/component-architecture.md) for the LDM, project, contract, schema, mapping and runtime/construction boundaries that a slice travels through.
+
 ## Purpose
 
 This document explains how one capability travels through the building. A slice gives a team a recognisable vertical path instead of asking each feature to invent its own arrangement of screen, service, rules and storage.

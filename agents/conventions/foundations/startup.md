@@ -45,6 +45,11 @@ Create and validate these objects as early as their dependencies permit. Early o
 
 Reflection is a discovery mechanism, not a design model. Discover types because they satisfy a capability contract, lifecycle contract or explicit discovery attribute. Do not rely on a class name, filename or namespace as the meaning of the capability.
 
+Service registration follows the same contract-led rule. A class or its service
+contract inherits the applicable lifecycle marker, and startup reflection resolves
+that marker into the dependency-injection lifetime. The marker is the registration
+contract; a class name or folder is not.
+
 Hard-wired registration is a valid bootstrap technique and may be the right choice for a genuinely tiny, closed or early-stage system. It is not the maturity target for a modular platform. As modules and participants grow, hard-wiring hides the composition graph in host code, makes omissions easy, encourages copy-and-paste registration, and prevents the platform from proving what was or was not assembled.
 
 Contract-based reflection is preferred once the contract, discovery scope, ordering rules, activation policy and startup diagnostics are mature. Reflection is not accepted merely because it reduces lines of startup code. It is accepted because it makes module composition extensible while remaining inspectable, deterministic and testable. A team must not reject it as "magic" without addressing the contract, diagnostics and tests that make the mechanism understandable. If the mechanism cannot be explained, logged and tested, the mechanism is not mature enough yet; the answer is to improve that evidence, not to retreat to an ever-growing list of hard-wired calls.
@@ -97,6 +102,21 @@ Use these conceptual categories when deciding what belongs in startup:
 - **Startup diagnostic record**: structured phase, participant, timing, status, metrics, exception and child-step information. Do not make operators reconstruct startup from unstructured console text.
 
 These categories may overlap in a concrete implementation, but the lifecycle responsibility must remain unambiguous.
+
+## Lifetime north star
+
+Prefer singleton lifetime for stateless, thread-safe services, immutable policies,
+startup-hydrated definitions and registries when their dependencies are also safe for
+singleton use. This reduces allocation, memory churn and garbage-collection pressure,
+and gives startup one observable object to validate and diagnose.
+
+This is a north star, not a command to make everything singleton. Controllers,
+application services and request-sensitive context objects are normally scoped to a
+request or operation. Repositories are commonly scoped because they share a
+DbContext or unit of work. Any object that carries mutable request state, scoped
+identity, transaction state or non-thread-safe dependencies must not be promoted to
+singleton merely to reduce allocations. Correct lifetime and ownership outrank the
+singleton preference.
 
 ## What startup must make visible
 

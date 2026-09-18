@@ -12,6 +12,10 @@ These principles describe the ground beneath the building. They explain why boun
 
 The ideas can be understood before their technical names are familiar. Each principle starts with a practical concern and then introduces more precise engineering language where that helps different contributors discuss the same design. Business analysts bring the meaning and consequences of decisions. Developers test whether the priorities can become working contracts. Testers look for evidence that the boundaries behave as described. Operations brings lifecycle, readiness and recovery concerns. Architecture keeps the structure coherent across capabilities.
 
+## Audience and quality standard
+
+These principles are for meaningful applications that affect people, organisational work, records, access, decisions, obligations or reputation. They are not a default recipe for disposable trinkets or proof-of-concept demonstrations. An MVP may define a smaller first scope, but it does not lower the quality standard: the delivered scope must still be valuable, secure, usable, maintainable, operable and recoverable. Funding may not continue, so do not defer a known foundation on the assumption that a later phase will make an unsafe or unmaintainable choice correct. Defer capabilities when necessary; do not defer the responsibility to make the delivered system dependable.
+
 ## 1. Optimise the whole service life
 
 A system spends far longer in operation, support and maintenance than in initial delivery. Optimise for the total cost of ownership, not only for the first successful build. A shortcut is not cheap if it creates a permanent operational dependency, repeated support work, or a difficult migration after the original developers have moved on.
@@ -140,14 +144,7 @@ Configuration and settings, startup and lifecycle, and access and security contr
 
 The pressure to start with a visible business outcome is understandable. The risk is starting with only a trowel: a controller, a table and a happy-path service, without the contracts, composition rules and safety boundaries needed to build the high-rise around it. The result may demonstrate motion, but it cannot reliably carry the next floors.
 
-The default order is:
-
-1. **Contracts**: define the capabilities, ownership, lifecycle, security and failure semantics.
-2. **Objects**: implement contract-bearing configuration, settings, policies, definitions, mappings and domain concepts.
-3. **Services**: compose those objects into application capabilities and infrastructure operations.
-4. **Registries and discovery**: collect, validate, order and expose the participants through observable startup composition.
-5. **Vertical slices**: carry an owned capability from its boundary through rules and persistence or external effects.
-6. **Horizontal flows**: coordinate slices into journeys without stealing their ownership or duplicating their rules.
+The detailed construction and runtime order is maintained in the canonical [Holistic Development Architecture](../development/component-architecture.md). In summary, contracts establish ownership, base types preserve shared invariants, registries and services assemble capabilities, repositories or providers own effects, maps protect boundaries, vertical slices carry capabilities end to end, and horizontal flows coordinate those slices.
 
 This is not ceremony for its own sake. It prevents a feature from becoming the accidental owner of platform concerns that later features must copy. It also gives a developer a way to see the system: vertical slices are the shafts that carry capabilities through the building; horizontal flows are the routes between rooms and capabilities; foundational contracts are the structure that makes both possible.
 

@@ -35,6 +35,43 @@ Code adheres to:
 
 Services are stateless. Objects are stateful.
 
+Comments are part of the code's design interface. Use XML documentation and nearby
+teaching comments to explain ownership, contract constellation, invariants and
+non-obvious alternatives. Do not remove a useful comment merely because the code
+appears self-explanatory; update it when the contract or responsibility changes.
+
+### Documentation and readable intent
+
+XML documentation is intentionally enabled for production projects. It is not
+paperwork added after coding; writing the summary and remarks forces the developer
+to state the type's purpose, ownership, contract relationships, invariants and
+failure implications. That act of explanation often exposes a confused responsibility
+or a missing separation of concerns before it becomes code and persistence.
+
+Prefer clear, explicit syntax over compressed expressions, clever abbreviations or
+language tricks that make the author feel fluent while making mistakes harder to see
+at a glance. Brevity is useful only when it preserves intent. A slightly longer
+implementation that makes ownership, data flow and failure behavior obvious is more
+maintainable than a shorter implementation that requires reconstruction by the next
+developer or agent.
+
+If the intent cannot be explained clearly in nearby documentation, treat that as a
+design signal. The type may have too many responsibilities, the contract may be
+unclear, or the separation of concerns may be incomplete. Do not hide that problem
+behind terser syntax or a clever abstraction.
+
+### Explicit local types and braces
+
+Prefer explicit local variable types. Do not use `var` when the declared type is not
+obvious at the point of use; visible types help reviewers see contracts, lifetimes,
+mutability and accidental provider/framework coupling. Use `var` only where the
+type is immediately obvious and the repository style explicitly permits it.
+
+Always use opening and closing braces for `if`, `else`, `for`, `foreach`, `while`,
+`do`, `using`, `lock` and similar control-flow blocks, even when the body has one
+statement. Braces make later edits safer and make control-flow ownership visible at
+a glance. Do not trade that safety for a shorter line.
+
 ## Anti-Patterns and Design Judgment
 
 Do not use YAGNI as a reason to ignore foreseeable requirements, planned extensions or known directions of change. Its misuse is commonly based on ignorance of the plan rather than an informed architectural decision.
@@ -54,6 +91,38 @@ Organise code in the following order:
 The project or assembly identifies the architectural layer.
 
 Within the layer, organise code by domain. Within each domain, organise code by its primary purpose. Within each code category, present contracts before implementations.
+
+### Files and primary types
+
+Place one primary C# type per file: one interface, class, record, struct or enum.
+The filename must match that primary type exactly, including the type's casing.
+For example, `IReadRepository.cs` contains `IReadRepository`, and
+`SettingDefinition.cs` contains `SettingDefinition`.
+
+Keep a private nested helper in the same file only when it exists solely to support
+the primary type. Do not put several public or independently reusable types in one
+file as a shortcut; separate files make contracts discoverable, make ownership
+clearer and give cleanup tooling a reliable structural check.
+
+Use the canonical [Holistic Development Architecture](./component-architecture.md)
+for the shared LDM, project, folder and construction rules. The rule is contract
+driven all the way through the type constellation, not only at service boundaries:
+
+```text
+contract vocabulary
+  -> model/entity/configuration/DTO capabilities and property names
+    -> contract extension methods
+      -> schema and index conventions
+        -> explicit maps and query projections
+```
+
+Before adding a property, search for an existing structural contract or base type
+with the required meaning. If `IHasLocked` exists, use its locked capability and
+contract-defined member; do not invent an inverse such as `IsUnlocked`. Likewise,
+do not use `Name`, `Title` and `Key` interchangeably: a key is stable lookup
+identity, a name is a domain or technical name, and a title is display wording.
+Choose a new contract or property name only when the semantic distinction is real
+and document the translation where a consumer shape must differ.
 
 ## Project Naming 
 
@@ -134,6 +203,21 @@ Enumerations belong to compiled code and do not provide the identity, lifecycle,
 Use stable reference-data identifiers for values that are persisted, administered, shared between systems or expected to change independently of a deployment.
 
 An enum may still be useful as developer shorthand for a finite set of platform-defined defaults. A deterministic, tested mapping may turn those built-in members into stable reference-data identifiers during idempotent startup seeding. The enum is then a declaration of the built-in seed set, not the persisted vocabulary. The database MUST store reference-data identity and records, not the enum's underlying integer or language-specific member name. **No enums in databases.**
+
+The normal pattern is:
+
+```text
+enum for readable code
+  -> deterministic identifier function
+    -> reference-data entity inheriting the reference-data base
+      -> idempotent seed/reconciliation
+        -> persisted reference-data row and FK
+```
+
+The deterministic identifier must remain stable when code is rebuilt or deployed
+again. Do not use a random GUID for a built-in reference-data value, and do not
+persist the enum's numeric value as the database meaning. The reference-data entity
+owns identity, key, title, lifecycle, administration and referential integrity.
 
 ### Constants
 
@@ -229,12 +313,18 @@ Further classify models according to their semantic role:
 
 Consider using DTOs sparingly if a more specific category applies. Requests, responses, commands, queries, messages and view models may technically be data-transfer objects, but their specific responsibilities are more informative.
 
-While most Models do not define a local contract first, they *use* system-wide model contracts (IHasId, IHasEnabled, IHasTitleAndDescription, IHasImage, etc.) which
-in turn allows data schema development and object mapping by convention, rather than be custom specific instances as that increases work while decreasing certainty of no error.
+Models use system-wide structural contracts (IHasId, IHasEnabled,
+IHasTitleAndDescription, IHasImage, IHasLocked and similar) so schema development,
+validation and object mapping can follow known capabilities instead of re-inventing
+property names and one-off configuration. A model does not need a new local
+interface for every class, but it must use the existing contract whose semantics
+match the capability.
 
 Where a model implements a contract from the Substrate assembly, the local category may contain only the Implementations folder.
 
-Note: whether to keep an Implementations folder or not to align with all other circumstances is a metter of preference - but it reminds one that the models should all be implementing interfaces. Profusely. 
+The nested `Implementations/` folder is the normal physical distinction between a
+contract or structural role and its concrete model type. It is not an optional style
+choice when the surrounding category uses contract-before-implementation layout.
 
 ```
 Models/

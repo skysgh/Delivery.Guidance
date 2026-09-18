@@ -6,6 +6,8 @@ For the accessible explanation of the package boundary, read [Logical Deployment
 
 Systems are developed as a stack of discrete Logical Deployment Modules (LDMs), per stakeholder.
 
+For the physical boundary and construction order inside an LDM, use the canonical [Holistic Development Architecture](./component-architecture.md). This page defines LDM responsibilities and project traits; it does not create a second ordering scheme.
+
 ### Sys
 
 The bottommost LDM is referred to as the System LDM. Its purpose is to wrap dependencies on external libraries with app-specific services to protect the rest of the code from code rot or DLL hell.

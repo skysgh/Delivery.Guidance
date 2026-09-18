@@ -2,6 +2,13 @@
 
 This is the agent-facing route for developer architecture decisions. The accessible explanation is [Guidance for Developers](../../../IT/foundations/guidance-for-developers.md). Read it when the task needs the reasoning behind these rules; use this document to apply the rules consistently.
 
+Use the canonical [Holistic Development Architecture](./component-architecture.md) for the repeatable development shape from service and LDM ownership through domain, project, namespace, model contracts, schemas, mappings, slices and flows. Repository bindings supply concrete names.
+
+The precision in that route is intentional. It is mature, reusable formwork for
+reducing uncertainty and risk, not a prohibition on asking questions or exercising
+judgment. Qualify a pattern when the facts genuinely differ, and record the reason
+instead of replacing a known structure with an unexplained local invention.
+
 ## Required design route
 
 For a new capability, module, service, endpoint, persistence model or cross-cutting integration, use these as dependencies rather than a rigid one-person-at-a-time sequence:
@@ -11,7 +18,7 @@ For a new capability, module, service, endpoint, persistence model or cross-cutt
 3. Assign the meaning, data and responsibility to the owning Logical Deployment Module (LDM) or boundary.
 4. Define the contract, including security, lifecycle, data ownership and failure behaviour.
 5. Keep dependency direction inward: interfaces and infrastructure depend on application and domain contracts; the domain does not depend on transport, persistence, vendors or frameworks.
-6. Build one vertical slice from its external contract through application and domain rules to the state or external effect it owns.
+6. Build one vertical slice using the contract-first construction and runtime paths in [Holistic Development Architecture](./component-architecture.md).
 7. Model horizontal flows separately when several slices must be coordinated.
 8. Choose the execution phase and mode: deployment, startup, synchronous operation or durable asynchronous work.
 

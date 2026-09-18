@@ -38,6 +38,27 @@ Use Angular for the supported front-end application framework unless a repositor
 - Keep browser bundles, network transfers, CPU work and memory use proportionate to the user task.
 - Keep front-end contracts separate from service-side domain and persistence contracts.
 
+Do not use legacy `var`; use `const` by default and `let` only when reassignment is
+required. Prefer a visible type annotation when inference would hide an important
+boundary or make the value's contract unclear. Always use opening and closing braces
+for `if`, `else`, `for`, `for...of`, `for...in`, `while`, `switch` cases and similar
+control-flow blocks, even for one statement. The extra lines protect later edits and
+make ownership and nesting visible.
+
+## Files and primary types
+
+Place one primary TypeScript type per file: one exported class, interface, type alias,
+enum or other independently reusable declaration. The filename must match that
+primary exported type, using the repository's established casing convention. For
+example, `workspace-selector.component.ts` contains the primary
+`WorkspaceSelectorComponent`, and `t.base.configuration.ts` contains the primary
+`TBaseConfiguration` when the repository uses its type-prefix convention.
+
+Small private helper types may remain in the same file only when they exist solely
+to support the primary declaration. Do not combine unrelated exported interfaces,
+aliases or classes in one file; separate files make consumer contracts discoverable,
+make ownership clearer and let cleanup tooling detect drift.
+
 ## Sources
 
 - [TypeScript Handbook, TypeScript for JavaScript Programmers](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html): TypeScript adds a type system to JavaScript and reports type errors during development.
