@@ -23,6 +23,8 @@ match the work.
 | Cross-capability journey | [Horizontal Flows](../capabilities/flows.md), [Vertical Slices](../capabilities/slices.md) | Which slices retain ownership while the flow coordinates them? |
 | Project, namespace or folder restructuring | [Projects](./projects.md), [LDMs](./ldms.md), [Holistic Development Architecture](./component-architecture.md) | Does the physical location expose the same ownership and dependency direction as the code? |
 | Cleanup or review | [Code](./code.md), [Agent Workflow](../documentation/agent-workflow.md), [Done](./done.md) | Is this drift, a deliberate exception or a design decision that needs evidence? |
+| Any UI that lets a person choose from a list (forms, inspectors, designers, settings) | [Selection controls](./selection-controls.md), [Accessibility and frontend security](./accessibility.md) | Is there a registered data source, and does a panel picker present it with title, icon and description instead of a drop-down? |
+| Any client or presentation code that retrieves, shows, chooses, creates, changes or deletes data | [Named data access](./named-data-access.md), [Selection controls](./selection-controls.md) | Does every read and save go by a registered key through the one broker, with no address, component or second registry involved? |
 | Security, personal or classified data | [Data protection](../foundations/data-protection.md), [Design - Security](./design-security.md) | Who may see, change, retain, disclose or recover this information? |
 | Dependency, operation or delivery change | [Dependencies](./dependencies.md), [Operations](./operations.md), [Performance](./performance.md) | What new lifecycle, capacity, support and recovery obligation is introduced? |
 

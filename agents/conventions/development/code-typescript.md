@@ -38,6 +38,38 @@ Use Angular for the supported front-end application framework unless a repositor
 - Keep browser bundles, network transfers, CPU work and memory use proportionate to the user task.
 - Keep front-end contracts separate from service-side domain and persistence contracts.
 
+## Angular component source layout
+
+Keep normal Angular component source split by responsibility so the compiler can
+assemble it without making the source itself a maintenance boundary:
+
+- `name.component.ts` owns the component class and TypeScript behavior.
+- `name.component.html` owns the component template through `templateUrl`.
+- `name.component.scss` (or the repository's established stylesheet language)
+  owns component-specific styles through `styleUrls` or the current Angular
+  equivalent.
+
+Do not use inline `template` or `styles` for ordinary production components.
+Retain inline declarations only for a documented, narrowly justified exception.
+Do not create an empty stylesheet merely to satisfy the pattern; a component
+without component-specific styles may omit it. Keep one primary Angular
+component, directive, pipe, service or other reusable entity per source file.
+
+Name Angular files after their primary type, for example
+`hub-app-tile.component.ts`, `hub-app-tile.component.html` and
+`hub-app-tile.component.scss` for `HubAppTileComponent`. Do not rely on a folder
+name as the only identity and do not use generic filenames such as
+`tile.component.ts` for a named reusable component; generic filenames make search,
+Solution Explorer navigation, diagnostics and refactoring less reliable. A
+deliberately local, non-reusable structural wrapper may be an exception when the
+reason is recorded.
+
+Do not leave unexplained magic strings, integers, numbers, characters, booleans or
+other semantic literals in production TypeScript. Use named constants, typed
+contracts, enums, configuration, translation keys or policy objects owned at the
+narrowest reusable boundary. Trivial language and algorithm values may remain
+inline when their meaning is self-evident and local.
+
 Do not use legacy `var`; use `const` by default and `let` only when reassignment is
 required. Prefer a visible type annotation when inference would hide an important
 boundary or make the value's contract unclear. Always use opening and closing braces
@@ -88,8 +120,6 @@ Developing the framework for the patterns as reusable components reduces novelty
 An Orchestrator is used to request a data set from a Broker, the results of which are presented a List/Tree Presenter. 
 Select informs the Orchestrator to use a Aggregate specific Broker to retrieve a single record which is rendered in a Read Presenter.
 If the user decides to Edit the record, the Orchestrator informs the Broker to retrieve a VM for editing, which is presented in a Write Presenter.
-
-
 
 
 

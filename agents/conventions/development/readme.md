@@ -14,5 +14,7 @@ These conventions support implementation, testing, operations and project struct
 - [Operations](./operations.md)
 - [Dependencies](./dependencies.md)
 - [Accessibility and frontend security](./accessibility.md)
+- [Selection controls (no drop-downs; panel pickers over registered sources)](./selection-controls.md)
+- [Named data access (all reads and saves by registered key through one broker)](./named-data-access.md)
 - [Performance](./performance.md)
 - [Completion](./done.md)
